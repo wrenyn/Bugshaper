@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workspace · Bugshaper</title><link rel="icon" href="../../assets/brand/mark.svg"><link rel="stylesheet" href="../../assets/styles/styles.css"></head>
+<body><a class="button skip-link" href="#workspace">Skip to content</a><div class="app">
+<aside class="sidebar"><a class="brand" href="drafts.html"><img src="../../assets/brand/mark.svg" width="32" height="32" alt="">bugshaper</a>
+<nav aria-label="Local drafts"><a href="drafts.html">Local drafts</a></nav>
+<p class="muted">Draft detail · uploads go to your website workspace</p></aside>
+<main id="workspace" class="workspace" tabindex="-1">
+  <header class="workspace-header">
+    <div id="report-navigation" class="button-row" hidden><a href="reports.html">All reports</a><button id="open-export" type="button" class="secondary">Export options</button></div>
+    <p id="report-id" class="technical muted"></p><h1 id="heading">Reports</h1><p id="report-meta" class="muted" hidden></p>
+  </header>
+  <p id="status" role="status" class="notice"></p>
+  <section id="workspace-page" class="surface" hidden></section>
+  <section id="list-controls" class="surface" hidden>
+    <div class="filters"><label>Search reports<input id="report-search" type="search"></label>
+    <label>Status<select id="filter-status"><option value="">All statuses</option></select></label>
+    <label>Project<select id="filter-project"><option value="">All projects</option></select></label>
+    <label>Capture<select id="filter-type"><option value="">All types</option><option>Screenshot</option><option>Recording</option><option>Element</option><option>Metadata</option></select></label>
+    <label>Date<select id="sort-date"><option value="desc">Newest first</option><option value="asc">Oldest first</option></select></label>
+    <label>Severity<select id="filter-severity"><option value="">All severities</option></select></label>
+    <label>Assignee<select id="filter-assignee"><option value="">All assignees</option></select></label>
+    <label>Category<select id="filter-category"><option value="">All categories</option></select></label></div>
+    <details><summary>Import report bundle</summary><label>JSON metadata bundle<input id="import-report" type="file" accept=".json,application/json"></label></details>
+  </section>
+  <div id="report-list" class="surface" hidden>
+    <form id="bulk-status" class="button-row" aria-label="Selected reports">
+      <label class="inline-control"><input id="select-page" type="checkbox"> Select this page</label>
+      <span id="selection-count" class="muted" role="status">0 selected</span>
+      <select id="batch-status" aria-label="New status for selected reports" required disabled><option value="">Choose a status</option></select>
+      <button type="submit" class="secondary" disabled>Apply status</button>
+    </form>
+    <p id="bulk-feedback" class="notice" role="status" tabindex="-1"></p>
+    <div class="table-scroll"><table><thead><tr><th scope="col">Select</th><th>Report</th><th>Status</th><th>Severity</th><th>Project</th><th>Category</th><th>Assignee</th><th>Capture</th><th>Created</th></tr></thead><tbody id="reports"></tbody></table></div><p id="list-empty" class="muted"></p>
+    <div class="pager" aria-label="Report pages"><button id="previous" class="secondary">Previous</button><span id="page-count" role="status"></span><button id="next" class="secondary">Next</button></div></div>
+  <article id="detail" hidden>
+    <div class="report-layout"><div class="evidence-column">
+      <section class="surface" id="shot-section" hidden><h2>Screenshot</h2><img id="shot" alt="Captured browser viewport"><a id="download" download="bugshaper-screenshot.png">Download screenshot</a></section>
+      <section class="surface" id="video-section" hidden><h2>Recording</h2><video id="video" controls preload="metadata"></video><p><a id="video-download" download="bugshaper-recording.webm">Download recording</a></p></section>
+      <details class="surface" id="edit-image" hidden><summary>Annotate or compare the screenshot</summary>
+        <div class="annotation-toolbar" role="group" aria-label="Annotation tools">
+          <button class="secondary" type="button" data-tool="select" aria-keyshortcuts="V" title="Shortcut V" aria-pressed="true">Select</button><button class="secondary" type="button" data-tool="outline" aria-keyshortcuts="R" title="Shortcut R" aria-pressed="false">Rectangle</button><button class="secondary" type="button" data-tool="arrow" aria-keyshortcuts="A" title="Shortcut A" aria-pressed="false">Arrow</button><button class="secondary" type="button" data-tool="pen" aria-keyshortcuts="P" title="Shortcut P" aria-pressed="false">Pen</button><button class="secondary" type="button" data-tool="text" aria-keyshortcuts="T" title="Shortcut T" aria-pressed="false">Text</button><button class="secondary" type="button" data-tool="highlight" aria-keyshortcuts="H" title="Shortcut H" aria-pressed="false">Highlight</button><button class="secondary" type="button" data-tool="blur" aria-keyshortcuts="B" title="Shortcut B" aria-pressed="false">Blur</button><button class="secondary" type="button" data-tool="redact" aria-keyshortcuts="X" title="Shortcut X" aria-pressed="false">Redact</button><button class="secondary" type="button" data-tool="crop" aria-keyshortcuts="C" title="Shortcut C" aria-pressed="false">Crop</button>
+        </div>
+        <label id="annotation-label" hidden>Annotation text<input id="annotation-text" maxlength="160"></label>
+        <p id="annotation-hint" class="muted">Choose a tool, then drag on the screenshot.</p>
+        <canvas id="annotations" aria-label="Screenshot annotation canvas"></canvas>
+        <p id="editor-status" class="notice" role="status"></p>
+        <div class="button-row"><button type="button" id="undo-annotation" class="secondary" disabled>Undo</button><button type="button" id="redo-annotation" class="secondary" disabled>Redo</button><button type="button" id="cancel-annotation" class="secondary" disabled>Discard edits</button><button type="button" id="save-annotation" disabled>Save edited screenshot</button></div>
+        <h2>Pixel comparison</h2><label>Updated screenshot<input id="candidate" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        <label>Threshold<input id="threshold" type="number" min="0" max="255" value="24"></label>
+        <button type="button" id="compare">Compare screenshots</button>
+        <section id="comparison-result" hidden aria-label="Screenshot comparison">
+          <p id="comparison-summary" role="status"></p>
+          <label>Comparison view<select id="comparison-view"><option value="difference">Highlighted differences</option><option value="side-by-side">Side by side</option><option value="overlay">Overlay</option></select></label>
+          <label id="comparison-opacity-control" hidden>Updated image opacity<input id="comparison-opacity" type="range" min="0" max="100" value="50"></label>
+          <canvas id="diff" aria-label="Highlighted pixel differences"></canvas>
+          <div id="comparison-pair" hidden><figure><img id="comparison-before" alt="Baseline screenshot"><figcaption>Baseline</figcaption></figure><figure><img id="comparison-after" alt="Updated screenshot"><figcaption>Updated</figcaption></figure></div>
+        </section>
+      </details>
+      <section class="surface" id="replay" hidden><h2>Layout replay</h2><p class="muted">Layout outlines captured from the page.</p>
+        <canvas id="replay-canvas" aria-label="Recorded layout outlines"></canvas><p id="replay-caption"></p>
+        <button id="replay-play" type="button">Play</button><div class="filters">
+        <label>Position<input id="replay-position" type="range" min="0" step="1"></label>
+        <label>Recent window<select id="replay-duration"><option value="120">120 seconds</option><option value="60">60 seconds</option><option value="30">30 seconds</option></select></label>
+        <label>Speed<select id="replay-speed"><option value="1">1x</option><option value="0.5">0.5x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></label></div>
+      </section>
+      <section class="surface"><h2>Diagnostics</h2><div id="diagnostic-tabs" class="button-row" role="group" aria-label="Diagnostic view">
+        <button class="secondary" data-view="timeline" aria-pressed="true">Timeline</button><button class="secondary" data-view="console" aria-pressed="false">Console</button><button class="secondary" data-view="network" aria-pressed="false">Network</button><button class="secondary" data-view="element" aria-pressed="false">Elements</button><button class="secondary" data-view="performance" aria-pressed="false">Performance</button><button class="secondary" data-view="environment" aria-pressed="false">Environment</button></div>
+        <div id="event-controls" class="filters"><label>Search diagnostics<input type="search" id="event-search"></label><label>Event type<select id="event-filter"><option value="">All events</option><option value="interaction">Interaction</option><option value="exception">Exception</option><option value="console">Console</option><option value="network">Network</option><option value="performance">Performance</option></select></label><label id="console-filter-label" hidden>Console level<select id="console-filter"><option value="">All console events</option><option value="exception">Exceptions</option><option value="debug">Debug</option><option value="log">Log</option><option value="info">Info</option><option value="warn">Warn</option><option value="error">Error calls</option><option value="trace">Trace</option></select></label><label id="network-filter-label" hidden>HTTP status<select id="network-filter"><option value="">All requests</option><option value="failed">4xx and 5xx</option><option value="unavailable">Unavailable</option></select></label></div>
+        <div id="timeline-window" class="timeline-window" hidden>
+          <label>Timeline zoom<select id="timeline-zoom"><option value="1">Full timeline</option><option value="2">2× zoom</option><option value="4">4× zoom</option><option value="8">8× zoom</option></select></label>
+          <div id="timeline-density" class="timeline-density" aria-hidden="true"></div>
+          <div class="timeline-navigation"><button id="timeline-previous" type="button" class="secondary">Previous window</button><p id="timeline-interval" role="status"></p><button id="timeline-next" type="button" class="secondary">Next window</button></div>
+        </div>
+        <div id="events"></div><div id="element" hidden></div><dl id="environment" hidden></dl>
+      </section>
+      <section class="surface"><h2>Verification history</h2><ul id="verification-history"></ul><form id="verification">
+        <label>Result<select name="result"><option>Passed</option><option>Failed</option><option>Inconclusive</option></select></label><label>Verification notes<textarea name="note" maxlength="2000" rows="2"></textarea></label><button type="submit">Record result</button>
+      </form></section>
+    </div><div id="report-divider" class="report-divider" role="separator" aria-orientation="vertical" aria-label="Resize report context" aria-controls="report-context" aria-keyshortcuts="ArrowLeft ArrowRight Home End Enter" tabindex="0" hidden></div>
+    <aside class="context-column" id="report-context"><form class="surface" id="notes">
+      <h2>Report context</h2><label>Title<input name="title" maxlength="160" placeholder="What went wrong?"></label>
+      <label>Description<textarea name="description" maxlength="4000" rows="2"></textarea></label>
+      <label>Expected behavior<textarea name="expected" maxlength="4000" rows="2"></textarea></label><label>Actual behavior<textarea name="actual" maxlength="4000" rows="2"></textarea></label>
+      <label>Reproduction steps<textarea name="reproduction" maxlength="4000" rows="3"></textarea></label><label>Status<select name="status"></select></label>
+      <label>Project<input name="project" maxlength="120"></label><label>Severity<select name="severity"><option value="">Unspecified</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></label>
+      <label>Assignee<input name="assignee" maxlength="120"></label><label>Category<input name="category" maxlength="80"></label><button type="submit">Save report details</button>
+    </form>
+    <section class="surface" id="related-reports" aria-labelledby="related-heading"><h2 id="related-heading" tabindex="-1">Related reports</h2>
+      <p id="related-empty" class="muted">Loading related reports.</p><ul id="related-list" hidden></ul>
+      <details id="related-picker"><summary>Link a local report</summary>
+        <form id="related-form"><label>Find a report<input type="search" name="query"></label>
+          <label>Report to link<select name="target" required></select></label><p id="related-results" class="muted"></p>
+          <button type="submit" disabled>Link report</button></form>
+      </details>
+      <p id="related-feedback" class="notice" role="status"></p>
+    </section>
+    <section class="surface"><h2 id="report-actions-heading" tabindex="-1">Report actions</h2><label class="inline-control"><input type="checkbox" id="bundle-screenshot"> Include screenshot</label><label class="inline-control"><input type="checkbox" id="bundle-video"> Include recording</label><div class="button-row"><button id="export-report" class="secondary" type="button">Export report bundle</button><button id="delete" class="secondary danger" type="button">Delete report</button></div></section></aside></div>
+  </article>
+</main></div><script type="module" src="reports.js"></script></body></html>
+

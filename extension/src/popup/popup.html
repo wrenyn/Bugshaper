@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bugshaper</title><link rel="stylesheet" href="../../assets/styles/styles.css"></head>
+<body class="popup"><main>
+  <header class="popup-header"><h1 class="brand"><img src="../../assets/brand/mark.svg" width="34" height="34" alt="">bugshaper</h1><button type="button" id="open-settings" class="text-link">Settings</button></header>
+
+  <section id="auth-panel" class="auth-panel" hidden>
+    <p class="muted" id="auth-message">Sign in to your Bugshaper workspace to capture bugs.</p>
+    <label class="origin-field">Workspace URL<input id="workspace-origin" type="url" placeholder="https://bugs.example.com" autocomplete="url"></label>
+    <div class="actions">
+      <button id="sign-in" type="button">Sign in</button>
+      <button id="save-origin" type="button" class="secondary">Save workspace URL</button>
+      <button id="refresh-session" type="button" class="secondary">Check again</button>
+    </div>
+  </section>
+
+  <section id="capture-panel" hidden>
+    <p class="account-line"><strong id="account-name"></strong><span id="account-email" class="muted"></span></p>
+    <label class="origin-field">Workspace
+      <select id="workspace-select" aria-label="Workspace"></select>
+    </label>
+    <label class="origin-field">Project
+      <select id="project-select" aria-label="Project"><option value="">No project</option></select>
+    </label>
+    <p id="project-error" class="form-error" hidden role="alert"></p>
+    <p class="muted" id="capture-context">Captures upload to the selected workspace.</p>
+    <div class="actions">
+      <button id="open-report" type="button">Capture screenshot</button>
+      <button id="record-start" type="button" class="secondary">Start recording</button>
+      <button id="inspect" class="secondary" type="button">Inspect an element</button>
+      <button id="start" class="secondary" type="button">Start diagnostics</button>
+    </div>
+    <p id="status" role="status"></p>
+    <div class="record-controls">
+      <div class="record-feedback"><p id="record-status" role="status"></p><span id="record-time" class="technical" hidden></span></div>
+      <div class="button-row" id="record-actions" hidden><button id="record-pause" type="button" class="secondary" disabled>Pause</button>
+      <button id="record-stop" type="button" class="secondary danger" disabled>Stop recording</button></div>
+      <a id="record-result" hidden>Open saved recording</a>
+    </div>
+    <section class="popup-recent">
+      <div class="button-row">
+        <button id="open-workspace" type="button">Open workspace</button>
+        <button id="reports" class="secondary" type="button">Local drafts</button>
+      </div>
+    </section>
+  </section>
+</main><script type="module" src="../capture/record-controls.js"></script><script type="module" src="popup.js"></script></body></html>

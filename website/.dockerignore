@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+**/*.md
+Jenkinsfile
+debug.log
+.env
+.env.*

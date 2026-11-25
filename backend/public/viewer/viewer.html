@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Report viewer · Bugshaper</title><link rel="icon" href="/brand/mark.svg"><link rel="stylesheet" href="/viewer.css"></head>
+<body><header class="viewer-header"><a class="brand" href="/"><img src="/brand/mark.svg" width="32" height="32" alt="">bugshaper</a></header><main><h1>Bugshaper report viewer</h1>
+<form id="access">
+<label>Access token<input name="token" type="password" autocomplete="off" required></label>
+<label>Report ID <span>(for contributors or owners)</span><input name="id" autocomplete="off"></label>
+<button>Open report</button>
+</form>
+<p id="status" role="status"></p>
+<article id="report" hidden><h2 id="title"></h2><dl id="details"></dl>
+<details id="timeline-panel"><summary>Event timeline</summary><ol id="timeline"></ol></details>
+<form id="investigation" hidden><h3>AI investigation</h3>
+  <label><input type="checkbox" name="consent" required> Send sanitized diagnostic signals to the configured AI provider</label>
+  <button>Investigate report</button><p id="investigation-result" role="status"></p><div id="investigation-evidence" hidden><h4>Investigation summary</h4><p id="ai-summary"></p><h4>Suggested next check</h4><p id="ai-check"></p><h4>Referenced evidence</h4><ul id="ai-references"></ul></div>
+</form>
+<section id="sharing" hidden><h3>Share report metadata</h3>
+<form id="share">
+<label>Token lifetime<select name="ttl"><option value="3600">One hour</option><option value="86400">One day</option><option value="604800">One week</option></select></label>
+<div class="viewer-actions"><button id="create-share">Create read-only token</button><button id="revoke-share" class="secondary danger" type="button">Revoke report tokens</button></div>
+<div class="viewer-actions"><button id="create-contributor" class="secondary" type="button">Create contributor token</button><button id="revoke-contributor" class="secondary danger" type="button">Revoke contributor tokens</button></div>
+<label id="share-token-row" hidden><span id="share-token-label">Generated read-only token</span><input id="share-token" readonly autocomplete="off"></label><p id="share-result" role="status"></p>
+</form></section>
+<section id="discussion" hidden><h3>Discussion and changes</h3><ol id="entries"></ol>
+<form id="comment"><label>Comment<textarea name="text" maxlength="2000" required></textarea></label>
+<button>Post comment</button></form></section>
+</article></main><script type="module" src="/viewer.js"></script></body></html>
+

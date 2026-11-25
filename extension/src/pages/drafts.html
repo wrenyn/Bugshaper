@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Local drafts · Bugshaper</title><link rel="icon" href="../../assets/brand/mark.svg"><link rel="stylesheet" href="../../assets/styles/styles.css"></head>
+<body class="drafts-page">
+  <header class="drafts-header shell">
+    <a class="brand" href="drafts.html"><img src="../../assets/brand/mark.svg" width="28" height="28" alt="">bugshaper</a>
+    <p class="muted">Local drafts waiting to upload, or kept as backup after capture.</p>
+  </header>
+  <main class="shell drafts-main">
+    <p id="status" role="status" class="notice"></p>
+    <div class="surface">
+      <div class="button-row drafts-toolbar">
+        <button type="button" id="refresh" class="secondary">Refresh</button>
+        <button type="button" id="open-workspace" class="secondary">Open workspace</button>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Draft</th><th>Upload</th><th>Created</th><th></th></tr></thead>
+          <tbody id="drafts"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="muted" hidden>No local drafts on this device.</p>
+    </div>
+  </main>
+  <script type="module" src="drafts.js"></script>
+</body></html>

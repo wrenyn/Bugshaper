@@ -1,0 +1,1 @@
+ALTER TABLE workspace_artifacts ADD COLUMN IF NOT EXISTS storage_key TEXT;

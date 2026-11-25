@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bugshaper
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bugshaper}
+      POSTGRES_DB: bugshaper
+    ports:
+      - "${BUGSHAPER_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - bugshaper-pg:/var/lib/postgresql/data
+      - ./backend/scripts/init-databases.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bugshaper -d bugshaper"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  website:
+    build:
+      context: ./website
+    restart: unless-stopped
+    ports:
+      - "${BUGSHAPER_WEBSITE_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      additional_contexts:
+        website: ./website
+    image: bugshaper-backend:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      website:
+        condition: service_started
+    ports:
+      - "${BUGSHAPER_PUBLISH_PORT:-4318}:4318"
+    env_file:
+      - ${BUGSHAPER_ENV_FILE:-./backend/.env.production}
+    environment:
+      NODE_ENV: production
+      BUGSHAPER_HOST: "0.0.0.0"
+      BUGSHAPER_PORT: "4318"
+      BUGSHAPER_TRUST_PROXY: "1"
+      BUGSHAPER_MEDIA_DIR: /data/media
+      DATABASE_URL: ${DATABASE_URL:-postgres://bugshaper:${POSTGRES_PASSWORD:-bugshaper}@postgres:5432/bugshaper}
+    volumes:
+      - bugshaper-media:/data/media
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4318/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  bugshaper-pg:
+  bugshaper-media:

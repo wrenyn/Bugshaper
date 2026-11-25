@@ -1,0 +1,26 @@
+import { plans } from "../lib/plans.js";
+
+export const testimonials = `<section class="shell section testimonials" id="stories">
+  <div class="section-intro">
+    <p class="eyebrow">From the team</p>
+    <h2>When the report carries the proof.</h2>
+  </div>
+  <div class="testimonial-grid">
+    <figure class="testimonial">
+      <blockquote>“Every report opens with the element, the network fail, and the owner already assigned.”</blockquote>
+      <figcaption><strong>Aisha Khan</strong><span>Staff engineer · Payments</span></figcaption>
+    </figure>
+    <figure class="testimonial">
+      <blockquote>“QA marks the overflow, redacts PII, and hands engineering a timeline. Verification stopped being a guessing game.”</blockquote>
+      <figcaption><strong>Maya Ruiz</strong><span>QA lead · Consumer web</span></figcaption>
+    </figure>
+    <figure class="testimonial">
+      <blockquote>“Design and eng look at the same evidence. The conversation sits on the report — not five threads.”</blockquote>
+      <figcaption><strong>Jordan Lee</strong><span>Product design · Checkout</span></figcaption>
+    </figure>
+  </div>
+</section>`;
+
+export const pricing = `<div class="pricing-intro"><p class="eyebrow">Less friction. More forward.</p><h1>Space for your team.<br><span>A plan that makes sense.</span></h1><p class="lede">Start free. Add room as you grow. One monthly price per workspace, with seats included.</p><span class="pricing-period">Monthly billing · USD · Before applicable taxes</span></div><div class="public-pricing-grid">${Object.values(plans).map(plan => `<article class="public-price-card ${plan.id === "pro" ? "recommended" : ""}">${plan.id === "pro" ? '<span class="recommended-label">THE TEAM FAVORITE</span>' : ""}<h2>${plan.name}</h2><p>${plan.description}</p><div class="public-price">$${plan.price}<span>/ workspace / month</span></div><a class="button ${plan.id !== "pro" ? "secondary" : ""}" href="/login">${plan.id === "free" ? "Start for free" : "Choose " + plan.name}</a><ul><li>${plan.members} workspace members</li><li>${plan.projects} projects</li><li>${plan.reports.toLocaleString()} stored reports</li><li>Shared teams and report discussions</li><li>Assignments and role-based access</li><li>Workspace analytics and activity</li><li>Screenshot and recording bundle imports</li></ul></article>`).join("")}</div><p class="pricing-footnote">Paid plans are available when Dodo Payments is connected by your service operator. Exact charges, taxes, and available payment methods are shown at checkout.</p><section class="pricing-questions"><h2>A few things you might be wondering.</h2><details><summary>What counts as a member?</summary><p>Each person with workspace access uses one seat, including owners and viewers. Pending invitations reserve a seat until accepted, revoked, or expired.</p></details><details><summary>Does every teammate need a paid plan?</summary><p>No. Plans belong to a workspace. The workspace owner handles billing, and everyone uses the member allowance included in that plan.</p></details><details><summary>What happens when we reach a limit?</summary><p>Your existing reports remain accessible. New reports, projects, or invitations pause at their respective limits. The owner can manage the subscription from Billing.</p></details><details><summary>Can we change or cancel our plan?</summary><p>The workspace owner can open the Dodo Payments customer portal to manage the subscription, payment methods, and invoices. Entitlements update after provider confirmation.</p></details><details><summary>How do browser captures get to the workspace?</summary><p>Export a Bugshaper bundle from the extension, then import it from the Reports page. Only the evidence and attachments included in that export are uploaded.</p></details></section>`;
+
+export const security = `<h1>Your context.<br><span>Your control.</span></h1><p class="lede">Bug reports need useful evidence and clear boundaries. Here's how Bugshaper handles access and data.</p><h2>Private workspaces</h2><p>Server-side membership checks scope workspace reports, projects, teams, comments, notifications, and activity. Owners and administrators manage membership; members work on reports; viewers have read-only access.</p><h2>Google sign-in</h2><p>Accounts use Google's authorization flow and verified email addresses. Sessions use expiring, server-managed cookies rather than browser-stored access keys. Workspace changes require session verification.</p><h2>Purposeful capture</h2><p>Browser diagnostics are opt-in. Exports omit input values, request bodies, headers, and raw exception messages. Screenshots and video can still contain visible sensitive information: review and redact before sharing.</p><h2>Invitations that expire</h2><p>Invitation links are restricted to the invited email address, expire after seven days, and can be revoked by workspace administrators.</p><h2>Payments handled by Dodo Payments</h2><p>Payment details are entered on Dodo's hosted checkout or customer portal. Bugshaper verifies signed provider notifications before changing subscription access.</p><h2>Deployment matters</h2><p>Your service operator controls hosting, backups, retention, and provider configuration. Security certifications, uptime guarantees, and compliance attestations are not claimed.</p>`;

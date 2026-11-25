@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+!backend/.env.production.example
+backend/.env.production
+
+# Build outputs
+dist/
+website/dist/
+backend/public/www/
+extension/dist/
+cli/dist/
+
+# Local data / databases
+.data/
+*.sqlite
+*.sqlite-*
+*.db
+
+# Logs / OS / IDE
+*.log
+debug.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Coverage / caches
+coverage/
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# Docker / local overrides
+docker-compose.override.yml

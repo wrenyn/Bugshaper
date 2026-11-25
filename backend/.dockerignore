@@ -1,0 +1,12 @@
+node_modules
+.data
+.git
+*.sqlite*
+.env
+.env.*
+!.env.production.example
+public/www
+tests
+Jenkinsfile
+**/*.md
+debug.log

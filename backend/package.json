@@ -1,0 +1,19 @@
+{
+  "name": "@bugshaper/backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "start": "node start.mjs",
+    "check": "node --check start.mjs server.mjs routes/index.mjs controllers/legacy.mjs models/report.mjs",
+    "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "deploy:check": "node scripts/validate-env.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
+  }
+}
